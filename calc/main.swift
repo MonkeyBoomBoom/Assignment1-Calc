@@ -22,6 +22,7 @@ var numOne : Double
 var numOneInt : Int
 var numTwo : Double
 var numThree : Double
+var numFive : Double
 var operation : String
 var calculation : String
 var result : Double
@@ -60,6 +61,12 @@ var stringSaved6 : String
 var stringSaved7 : String
 var stringSaved8 : String
 var percentage : Double
+var startinString : String
+var errorWithZero : Bool
+var errorWithPercentage : Bool
+var count : Int
+var counter : Int
+
 result = 0.0
 calculation = "0"
 numOne = 0
@@ -78,6 +85,10 @@ stringSaved5 = ""
 stringSaved6 = ""
 stringSaved7 = ""
 stringSaved8 = ""
+errorWithZero = false
+errorWithPercentage = false
+count = 0
+counter = 0
 
 
 var args = ProcessInfo.processInfo.arguments
@@ -93,13 +104,18 @@ formattedString = formattedString.replacingOccurrences(of: "]", with: "")
 formattedString = formattedString.replacingOccurrences(of: ",", with: "")
 formattedString = formattedString.replacingOccurrences(of: "\'", with: "")
 formattedString = formattedString.replacingOccurrences(of: "\"", with: "")
-
+startinString = formattedString
 //print(formattedString)
 postfix operator %
 
 postfix func % (percentage: Int) -> Double {
     return (Double(percentage) / 100)
 }
+
+
+
+
+
 let characters = Array(formattedString)
 //print(characters)
 
@@ -171,6 +187,7 @@ if (formattedString.count > 3) {
     charc4 = characters[3]
     charc3 = characters[2]
     if let _ = Int(String(charc4)) {
+        if (CheckLastInt == false) {
         if (StartSecondInt == true && StartThirdInt == true) {
             StartFourthInt = true
         }  else if (StartSecondInt == true) {
@@ -178,6 +195,7 @@ if (formattedString.count > 3) {
         }
         if (StartSecondInt != true) {
             StartSecondInt = true
+        }
         }
         if (StartSecondInt != true) {
             
@@ -237,7 +255,7 @@ if (formattedString.count > 4) {
     charc4 = characters[3]
     charc3 = characters[2]
     if let _ = Int(String(charc5)) {
-        
+         if (CheckLastInt == false) {
         if (StartSecondInt == true && StartThirdInt == true) {
             StartFourthInt = true
         }  else if (StartSecondInt == true) {
@@ -246,14 +264,21 @@ if (formattedString.count > 4) {
         if (StartSecondInt != true) {
             StartSecondInt = true
         }
-        
+        }
         if (StartSecondInt != true) {
             
             
-            let thirdString = String(Int(numTwo)) + String(charc5)
+            let thirdString = String(Int(numOne)) + String(charc5)
             numOne = Double(thirdString)!
-        } else {
-            
+        }
+        if (StartSecondInt == true) {
+              if let _ = Int(String(charc4)) {
+                let thirdString = (String(charc4) + String(charc5))
+                    numTwo = Double(thirdString)!
+              } else {
+                let thirdString = String(charc5)
+                numTwo = Double(thirdString)!
+            }
         }
         if (StartThirdInt != true) {
             
@@ -589,10 +614,11 @@ if (formattedString.count > 11) {
 switch (calculation)
 {
 case "+":
+    
     formattedString = formattedString.replacingOccurrences(of: "x", with: "*")
     if (StartSecondInt == false) {
         formattedString = formattedString.replacingOccurrences(of: "+", with: "")
-        print(formattedString)
+      //  print(formattedString)
     }
     //  print("formatted String is!")
     let expn = NSExpression(format:formattedString)
@@ -601,13 +627,26 @@ case "+":
     
 case "%":
     
+    
+    //print("third counter\(StartThirdInt)")
+    let letters = Array(formattedString)
+  
+    for letter in letters {
+        if (letter == "%") {
+            count += 1
+        }
+    }
+   // print("countign:\(count)")
+    
     formattedString = formattedString.replacingOccurrences(of: "x", with: "*")
     
     
     let string2 = String(Int(numOne))
     let string3 = String(Int(numTwo))
-    print("numOne\(numOne)")
-    print("numTwo\(numTwo)")
+//  print("numOne\(numOne)")
+ //   print("numTwo\(numTwo)")
+ //   print(StartThirdInt)
+
     if (StartSecondInt == true)
     {
         formattedString = formattedString.replacingOccurrences(of:string2, with: "\(numOne.truncatingRemainder(dividingBy: numTwo))")
@@ -620,13 +659,66 @@ case "%":
         formattedString = formattedString.replacingOccurrences(of:string2, with: "\(numOne.truncatingRemainder(dividingBy: 1))")
         
     }
-    //    formattedString = formattedString.replacingOccurrences(of:string3, with: "\(numTwo.truncatingRemainder)")
+    
     formattedString = formattedString.replacingOccurrences(of:"%", with: "")
     formattedString = formattedString.replacingOccurrences(of:"+", with: "")
     
-    //  print("start third int\(StartThirdInt)")
-    
-    //          print(formattedString)
+    if (count == 2)
+    {
+        // below is the worse solution
+        /*
+ //       let percentage = (Int)(numOne)%
+        let percentage2 = (Int)(numTwo)%
+        
+   //     print("%One\(percentage)")
+    //    print("%Two\(percentage2)")
+        
+        formattedString = startinString
+        numOne = numOne/100
+        numTwo = numTwo/100
+    //    formattedString = formattedString.replacingOccurrences(of:String(numOne), with:String(percentage))
+         formattedString = formattedString.replacingOccurrences(of:String(numTwo), with:String(percentage2))
+          formattedString = formattedString.replacingOccurrences(of:"%", with: "")
+       
+       
+       // result = finalFinish! / 100
+    */
+        
+        
+        
+        /// delete all above for better solution
+        
+        
+        let string2 = String(Int(numOne))
+        let string3 = String(Int(numTwo))
+        let percentage = String(Int(numOne)%)
+        let percentage2 = String(Int(numTwo)%)
+        
+        //  print("%One\(percentage)")
+        // print("%Two\(percentage2)")
+        
+        formattedString = formattedString.replacingOccurrences(of:string2, with:percentage)
+        formattedString = formattedString.replacingOccurrences(of:string3, with:percentage2)
+        formattedString = formattedString.replacingOccurrences(of:"%", with: "")
+        //   print("formattedString: \(formattedString)")
+        let expn = NSExpression(format:formattedString)
+        result = expn.expressionValue(with: nil, context: nil)! as! Double
+        // result = Double(result / 100)
+        //   print("Final Result: \(result)")
+        errorWithPercentage = true
+         print("exit with nonzero status on invalid input")
+        //// end of better solution
+    }
+  
+    if (StartThirdInt == true) {
+        
+        formattedString = formattedString.replacingOccurrences(of:"*", with: "")
+         formattedString = formattedString.replacingOccurrences(of:string3, with: "")
+    }
+
+    //    formattedString = formattedString.replacingOccurrences(of:string3, with: "\(numTwo.truncatingRemainder)")
+
+ //    print("formattedString2: \(formattedString)")
     
     let expn = NSExpression(format:formattedString)
     result = expn.expressionValue(with: nil, context: nil)! as! Double
@@ -649,7 +741,88 @@ case "--":
     
 case "/":
     formattedString = formattedString.replacingOccurrences(of: "x", with: "*")
+    let letters = Array(formattedString)
+    
+    for letter in letters {
+        if (letter == "*") {
+            counter += 1
+        }
+    }
+    for letter in letters {
+        if (letter == "%") {
+            count += 1
+        }
+    }
     //    print("formatted String is!")
+    if (counter == 0) {
+    if (numOne < numTwo) {
+        errorWithZero = true
+        } }
+    if (numTwo == 0) {
+    errorWithZero = true
+    }
+    if (counter == 0) {
+        if (count > 0) {
+    if (StartThirdInt == true) {
+    let numFour = numTwo / numThree
+        
+          formattedString = formattedString.replacingOccurrences(of: "/", with: "")
+        let string2 = String(Int(numOne))
+        let string3 = String(Int(numTwo))
+        let string4 = String(Int(numThree))
+        
+        
+        formattedString = formattedString.replacingOccurrences(of:string2, with: "\(numOne.truncatingRemainder(dividingBy: numFour))")
+        
+        //       print("string3\(string3)")
+        formattedString = formattedString.replacingOccurrences(of:string3, with: "")
+            formattedString = formattedString.replacingOccurrences(of:string4, with: "")
+           formattedString = formattedString.replacingOccurrences(of: "%", with: "")
+        
+       
+            } } }
+    if (counter == 1) {
+        if (count > 0) {
+            if (StartThirdInt == true) {
+                charc9 = characters[8]
+                charc10 = characters[9]
+                charc11 = characters[10]
+                let charc11Int = Double(String(charc11))
+                //   7 - 3 + 7 / 3 x 5 % 3
+                if (charc10 == "%") {
+                formattedString = formattedString.replacingOccurrences(of: "%", with: "")
+                    formattedString.remove(at: formattedString.index(before: formattedString.endIndex))
+                   
+                //    formattedString = formattedString.replacingOccurrences(of:String(charc11), with: "")
+               
+                    let expn = NSExpression(format:formattedString)
+                    result = expn.expressionValue(with: nil, context: nil)! as! Double
+                   
+                    
+                    let string3 = String(Int(result))
+                    let string4 = String(charc11)
+                    numFive = Double(string4)!
+                    var variable5 = result.truncatingRemainder(dividingBy: numFive)
+                    variable5 = variable5 + charc11Int!
+                   
+                    let string5 = String(Int(variable5))
+
+    
+                    
+                    formattedString = string5
+                       formattedString = formattedString.replacingOccurrences(of:string3, with: "")
+                    
+                   
+                    
+                }
+                
+            }
+            
+        }
+        
+    }
+   
+     // print("start \(StartThirdInt)")
     let expn = NSExpression(format:formattedString)
     result = expn.expressionValue(with: nil, context: nil)! as! Double
     break
@@ -677,6 +850,9 @@ default:
 
 
 
+
+
+
 // one way to do this is to save the whole first message as a string, then once saved as a string break up into characters. :) Once into characters save a character to a different value. And then you have your values and calculate from left to right! IF the second value is a number, add it onto the first value. IF the second number is a string then computer with a switch statement.
 
 
@@ -692,10 +868,35 @@ default:
  default:
  print("someVar is \(calculation)")
  }
+
  */
 
+enum NetworkError: Error {
+    case unauthorised
+    case errorWithDivision
+    case errorOnPercentage
+    case errorOnIntegerOverAndUnder
+}
 
-print(Int(result))
+
+
+
+guard (result < 200000000 && result > -20000000) else {
+    throw NetworkError.errorOnIntegerOverAndUnder
+}
+
+guard (count < 2) else {
+     throw NetworkError.errorOnPercentage
+}
+
+guard (errorWithZero == false) else {
+         throw NetworkError.errorWithDivision
+}
+
+if (errorWithPercentage == false) {
+    print(Int(result))
+}
+//print(Int(result))
 
 
 
